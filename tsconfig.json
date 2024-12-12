@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "lib": ["dom", "es2015"],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "jsx": "react",
+    "allowJs": true,
+    "checkJs": false,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "baseUrl": ".", // Добавьте базовый путь
+    "paths": {
+      "/imports/*": ["imports/*"], // Добавьте пути для импорта
+      "/client/*": ["client/*"],
+      "/server/*": ["server/*"]
+    }
+  },
+  "include": [
+    "imports/**/*.ts",
+    "imports/**/*.tsx",
+    "client/**/*.ts",
+    "client/**/*.tsx",
+    "server/**/*.ts"
+  ]
+}
