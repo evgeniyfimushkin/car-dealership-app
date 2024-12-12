@@ -11,7 +11,8 @@
     "@babel/runtime": "^7.20.7",
     "meteor-node-stubs": "^1.2.5",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "mongodb": "^4.9.0"
   },
   "meteor": {
     "mainModule": {
@@ -23,6 +24,7 @@
   "devDependencies": {
     "@types/meteor": "^2.9.8",
     "@types/react": "^19.0.1",
-    "@types/react-dom": "^19.0.2"
+    "@types/react-dom": "^19.0.2",
+    "@types/mongodb": "^4.0.0"
   }
 }

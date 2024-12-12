@@ -1,5 +1,5 @@
 #!/bin/bash
-docker-compose up -d
+#docker-compose up -d
 # Переменные конфигурации
 CONFIG_SERVER="configsvr:27019"
 SHARD1="shard1:27018"
