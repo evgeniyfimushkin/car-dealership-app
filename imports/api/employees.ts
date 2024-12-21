@@ -23,7 +23,7 @@ export const EmployeesCollection = new Mongo.Collection<Employee>('employees');
 Meteor.methods({
     'employees.insert'(employee: Employee) {
         check(employee, Object); // Проверка данных на типы
-        EmployeesCollection.insert(employee);
+        EmployeesCollection.insertAsync(employee);
     },
 
     'employees.update'(id: string, updatedEmployee: Employee) {
