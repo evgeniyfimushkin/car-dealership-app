@@ -25,7 +25,7 @@ Meteor.methods({
     },
     'spareParts.remove': function (sparePartId) {
         // Remove a spare part
-        SparePartsCollection.remove(sparePartId);
+        SparePartsCollection.removeAsync(sparePartId);
     }
 });
 

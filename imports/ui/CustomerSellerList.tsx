@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useTracker } from 'meteor/react-meteor-data';
 import { CarsCollection } from '../api/cars';
 import { CustomerSeller, CustomerSellersCollection } from "/imports/api/customerSeller";
+import {Employee} from "/imports/api/employees";
 
 export const CustomerSellerList: React.FC = () => {
     const [editingSeller, setEditingSeller] = useState<CustomerSeller | null>(null);
@@ -22,6 +23,17 @@ export const CustomerSellerList: React.FC = () => {
 
     const handleEdit = (seller: CustomerSeller) => {
         setEditingSeller(seller);
+    };
+    const handleDelete = (seller: CustomerSeller) => {
+        if (confirm(`Вы уверены, что хотите удалить объект ?`)) {
+            Meteor.call('customerSeller.remove', seller._id, (error: Error) => {
+                if (error) {
+                    console.error('Ошибка при удалении сотрудника:', error);
+                } else {
+                    console.log('Сотрудник успешно удалён');
+                }
+            });
+        }
     };
 
     const handleSave = () => {
@@ -44,6 +56,7 @@ export const CustomerSellerList: React.FC = () => {
                         <p>Document Issue Date: {new Date(seller.documentIssueDate).toLocaleDateString()}</p>
                         <p>Issued By: {seller.issuedBy}</p>
                         <button onClick={() => handleEdit(seller)}>Edit</button>
+                        <button onClick={() => handleDelete(seller)}>Удалить</button>
                     </div>
                 ))}
             </div>

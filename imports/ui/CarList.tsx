@@ -19,7 +19,17 @@ export const CarList: React.FC = () => {
         const employee = employees.find((emp) => emp._id === employeeId);
         return employee ? `${employee.firstName} ${employee.lastName}` : 'Unknown Employee';
     };
-
+    const handleDelete = (seller: Car) => {
+        if (confirm(`Вы уверены, что хотите удалить объект ?`)) {
+            Meteor.call('cars.remove', seller._id, (error: Error) => {
+                if (error) {
+                    console.error('Ошибка при удалении сотрудника:', error);
+                } else {
+                    console.log('Сотрудник успешно удалён');
+                }
+            });
+        }
+    };
     const handleEdit = (car: Car) => {
         setEditingCar(car);
     };
@@ -56,13 +66,17 @@ export const CarList: React.FC = () => {
                         <p>Registration Number: {car.registrationNumber || 'N/A'}</p>
                         <p>Body Number: {car.bodyNumber || 'N/A'}</p>
                         <p>Chassis Number: {car.chassisNumber || 'N/A'}</p>
-                        <p>Manufacture Date: {car.manufactureDate ? new Date(car.manufactureDate).toLocaleDateString() : 'N/A'}</p>
+                        <p>Manufacture
+                            Date: {car.manufactureDate ? new Date(car.manufactureDate).toLocaleDateString() : 'N/A'}</p>
                         <p>Mileage: {car.mileage !== undefined ? car.mileage : 'N/A'}</p>
-                        <p>Release Price: {car.releasePrice !== undefined ? `$${car.releasePrice.toFixed(2)}` : 'N/A'}</p>
+                        <p>Release
+                            Price: {car.releasePrice !== undefined ? `$${car.releasePrice.toFixed(2)}` : 'N/A'}</p>
                         <p>Sale Price: {car.salePrice !== undefined ? `$${car.salePrice.toFixed(2)}` : 'N/A'}</p>
-                        <p>Purchase Price: {car.purchasePrice !== undefined ? `$${car.purchasePrice.toFixed(2)}` : 'N/A'}</p>
+                        <p>Purchase
+                            Price: {car.purchasePrice !== undefined ? `$${car.purchasePrice.toFixed(2)}` : 'N/A'}</p>
                         <p>Assigned to: {getEmployeeName(car.employeeId || '')}</p>
                         <button onClick={() => handleEdit(car)}>Изменить</button>
+                        <button onClick={() => handleDelete(car)}>Удалить</button>
                     </div>
                 ))}
             </div>

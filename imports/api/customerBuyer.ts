@@ -24,7 +24,7 @@ Meteor.methods({
     },
 
     'customerBuyers.remove'(id: string) {
-        CustomerBuyersCollection.remove(id);
+        CustomerBuyersCollection.removeAsync(id);
     },
 });
 

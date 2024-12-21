@@ -35,7 +35,17 @@ export const SparePartList: React.FC = () => {
     const handleEdit = (sparePart: any) => {
         setEditingSparePart(sparePart);
     };
-
+    const handleDelete = (seller: any) => {
+        if (confirm(`Вы уверены, что хотите удалить объект ?`)) {
+            Meteor.call('spareParts.remove', seller._id, (error: Error) => {
+                if (error) {
+                    console.error('Ошибка при удалении сотрудника:', error);
+                } else {
+                    console.log('Сотрудник успешно удалён');
+                }
+            });
+        }
+    };
     const handleChange = (field: string, value: any) => {
         setEditingSparePart((prev: any) => (prev ? { ...prev, [field]: value } : null));
     };
@@ -57,7 +67,6 @@ export const SparePartList: React.FC = () => {
 
     return (
         <div>
-            <h2>Spare Parts List</h2>
             <div className="list-container">
                 {spareParts.map((part) => (
                     <div key={part._id} className="list-item">
@@ -66,6 +75,7 @@ export const SparePartList: React.FC = () => {
                         <p>Price: {part.price}</p>
                         <p>Quantity in Stock: {part.quantityInStock}</p>
                         <button onClick={() => handleEdit(part)}>Edit</button>
+                        <button onClick={() => handleDelete(part)}>Удалить</button>
                     </div>
                 ))}
             </div>

@@ -1,6 +1,5 @@
 
 services:
-  # Config Server
   configsvr:
     image: mongo:latest
     container_name: configsvr
@@ -10,7 +9,6 @@ services:
     volumes:
       - ./data/configdb:/data/db:Z
 
-  # Shard 1
   shard1:
     image: mongo:latest
     container_name: shard1
@@ -20,7 +18,6 @@ services:
     volumes:
       - ./data/shard1:/data/db:Z
 
-  # Shard 2
   shard2:
     image: mongo:latest
     container_name: shard2
@@ -30,7 +27,6 @@ services:
     volumes:
       - ./data/shard2:/data/db:Z
 
-  # Shard 3
   shard3:
     image: mongo:latest
     container_name: shard3
@@ -40,7 +36,6 @@ services:
     volumes:
       - ./data/shard3:/data/db:Z
 
-  # Shard 4
   shard4:
     image: mongo:latest
     container_name: shard4
@@ -50,7 +45,6 @@ services:
     volumes:
       - ./data/shard4:/data/db:Z
 
-  # Mongos (Router)
   mongos:
     image: mongo:latest
     container_name: mongos

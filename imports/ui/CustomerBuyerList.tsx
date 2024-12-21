@@ -30,7 +30,17 @@ export const CustomerBuyerList: React.FC = () => {
             setEditingBuyer(null);
         }
     };
-
+    const handleDelete = (seller: CustomerBuyer) => {
+        if (confirm(`Вы уверены, что хотите удалить объект ?`)) {
+            Meteor.call('customerBuyer.remove', seller._id, (error: Error) => {
+                if (error) {
+                    console.error('Ошибка при удалении:', error);
+                } else {
+                    console.log('Объект успешно удалён');
+                }
+            });
+        }
+    };
     const handleCarSelection = (carId: string) => {
         if (editingBuyer) {
             setEditingBuyer({ ...editingBuyer, carId });
@@ -48,6 +58,8 @@ export const CustomerBuyerList: React.FC = () => {
                         <p>Invoice Number: {buyer.invoiceNumber}</p>
                         <p>Payment Type: {buyer.paymentType}</p>
                         <button onClick={() => handleEdit(buyer)}>Edit</button>
+
+                        <button onClick={() => handleDelete(buyer)}>Удалить</button>
                     </div>
                 ))}
             </div>

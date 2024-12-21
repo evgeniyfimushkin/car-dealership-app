@@ -13,24 +13,33 @@ export const EmployeeList: React.FC = () => {
             employees: employeesData,
         };
     }, []);
-    console.log(employees); // Выводим список сотрудников
 
     const handleEdit = (employee: Employee) => {
         setEditingEmployee(employee);
     };
 
-    const handleSave = () => {
-        if (editingEmployee && editingEmployee._id) {
-            // Вызываем метод для обновления данных сотрудника через Meteor.call
-            Meteor.call('employees.update', editingEmployee._id, editingEmployee, (error: Error) => {
+    const handleDelete = (employee: Employee) => {
+        if (confirm(`Вы уверены, что хотите удалить сотрудника ${employee.firstName} ${employee.lastName}?`)) {
+            Meteor.call('employees.remove', employee._id, (error: Error) => {
                 if (error) {
-                    console.error('Error updating employee:', error);
+                    console.error('Ошибка при удалении сотрудника:', error);
                 } else {
-                    console.log('Employee updated successfully');
+                    console.log('Сотрудник успешно удалён');
                 }
             });
+        }
+    };
 
-            setEditingEmployee(null); // Закрываем форму редактирования
+    const handleSave = () => {
+        if (editingEmployee && editingEmployee._id) {
+            Meteor.call('employees.update', editingEmployee._id, editingEmployee, (error: Error) => {
+                if (error) {
+                    console.error('Ошибка при обновлении сотрудника:', error);
+                } else {
+                    console.log('Сотрудник успешно обновлён');
+                }
+            });
+            setEditingEmployee(null);
         }
     };
 
@@ -52,7 +61,6 @@ export const EmployeeList: React.FC = () => {
                         <p>Salary: {employee.salary}</p>
                         {employee.transfers && employee.transfers.length > 0 && (
                             <div>
-
                                 <h4>Transfers:</h4>
                                 <ul>
                                     {employee.transfers.map((transfer, index) => (
@@ -60,13 +68,15 @@ export const EmployeeList: React.FC = () => {
                                             <p>Position: {transfer.position}</p>
                                             <p>Reason: {transfer.reason || 'N/A'}</p>
                                             <p>Order Number: {transfer.orderNumber || 'N/A'}</p>
-                                            <p>Order Date: {transfer.orderDate ? new Date(transfer.orderDate).toLocaleDateString() : 'N/A'}</p>
+                                            <p>Order
+                                                Date: {transfer.orderDate ? new Date(transfer.orderDate).toLocaleDateString() : 'N/A'}</p>
                                         </li>
                                     ))}
                                 </ul>
                             </div>
                         )}
                         <button onClick={() => handleEdit(employee)}>Изменить</button>
+                        <button onClick={() => handleDelete(employee)}>Удалить</button>
                     </div>
                 ))}
             </div>

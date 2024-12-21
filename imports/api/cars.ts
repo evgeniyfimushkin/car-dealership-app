@@ -32,7 +32,7 @@ Meteor.methods({
     },
 
     'cars.remove'(id: string) {
-        CarsCollection.remove(id);
+        CarsCollection.removeAsync(id);
     },
 });
 

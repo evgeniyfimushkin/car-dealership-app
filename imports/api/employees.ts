@@ -37,7 +37,7 @@ Meteor.methods({
 
     'employees.remove'(id: string) {
         check(id, String); // Проверка id
-        EmployeesCollection.remove(id);
+        EmployeesCollection.removeAsync(id);
     },
 });
 
