@@ -1,37 +1,56 @@
 import { Meteor } from 'meteor/meteor';
-import { LinksCollection } from '/imports/api/links';
+import { Accounts } from 'meteor/accounts-base';
+import {EmployeesCollection} from "/imports/api/employees";
+import {CarsCollection} from "/imports/api/cars";
 
-async function insertLink({ title, url }: { title: string; url: string }) {
-    await LinksCollection.insertAsync({ title, url, createdAt: new Date() });
-}
+Meteor.methods({
+    'users.register': async (username, password) => {
+        console.log('Регистрация пользователя:', username);
 
-Meteor.startup(async () => {
-    // If the Links collection is empty, add some data.
-    if (await LinksCollection.find().countAsync() === 0) {
-        await insertLink({
-            title: 'Do the Tutorial',
-            url: 'https://www.meteor.com/tutorials/react/creating-an-app',
-        });
+        // Проверка, что имя пользователя и пароль переданы
+        if (!username || !password) {
+            console.log('Ошибка: Имя пользователя или пароль не указаны');
+            throw new Meteor.Error('400', 'Имя пользователя и пароль обязательны');
+        }
 
-        await insertLink({
-            title: 'Follow the Guide',
-            url: 'https://guide.meteor.com',
-        });
+        // Проверка, существует ли уже такой пользователь
+        const existingUser = await Accounts.findUserByUsername(username);  // Используем await
+        console.log('Найден пользователь:', existingUser);
 
-        await insertLink({
-            title: 'Read the Docs',
-            url: 'https://docs.meteor.com',
-        });
+        if (existingUser) {
+            console.log('Ошибка: Пользователь с таким именем уже существует');
+            throw new Meteor.Error('403', 'Пользователь с таким именем уже существует');
+        }
 
-        await insertLink({
-            title: 'Discussions',
-            url: 'https://forums.meteor.com',
-        });
+        // Создание нового пользователя
+        try {
+            const userId = await Accounts.createUser({
+                username,
+                password,
+            });
+            console.log('Пользователь создан:', userId);
+            return userId;
+        } catch (error) {
+            console.log('Ошибка при создании пользователя:', error);
+            throw new Meteor.Error('500', 'Ошибка при создании пользователя');
+        }
+    },
+});
+Meteor.publish('cars', function () {
+    if (this.userId) {
+        // Публикуем коллекцию, если пользователь авторизован
+        return CarsCollection.find();
+    } else {
+        // Если пользователь не авторизован, возвращаем пустой массив
+        return [];
     }
-
-    // We publish the entire Links collection to all clients.
-    // In order to be fetched in real-time to the clients
-    Meteor.publish('links', function () {
-        return LinksCollection.find();
-    });
+});
+Meteor.publish('employees', function () {
+    if (this.userId) {
+        // Публикуем коллекцию, если пользователь авторизован
+        return EmployeesCollection.find();
+    } else {
+        // Если пользователь не авторизован, возвращаем пустой массив
+        return [];
+    }
 });
