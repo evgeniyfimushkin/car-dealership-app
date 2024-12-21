@@ -52,6 +52,7 @@ export const EmployeeList: React.FC = () => {
                         <p>Salary: {employee.salary}</p>
                         {employee.transfers && employee.transfers.length > 0 && (
                             <div>
+
                                 <h4>Transfers:</h4>
                                 <ul>
                                     {employee.transfers.map((transfer, index) => (
