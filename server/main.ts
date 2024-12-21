@@ -2,6 +2,9 @@ import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 import {EmployeesCollection} from "/imports/api/employees";
 import {CarsCollection} from "/imports/api/cars";
+import {CustomerSellersCollection} from "/imports/api/customerSeller";
+import {CustomerBuyersCollection} from "/imports/api/customerBuyer";
+import {SparePartsCollection} from "/imports/api/sparePart";
 
 Meteor.methods({
     'users.register': async (username, password) => {
@@ -49,6 +52,33 @@ Meteor.publish('employees', function () {
     if (this.userId) {
         // Публикуем коллекцию, если пользователь авторизован
         return EmployeesCollection.find();
+    } else {
+        // Если пользователь не авторизован, возвращаем пустой массив
+        return [];
+    }
+});
+Meteor.publish('customerSellers', function () {
+    if (this.userId) {
+        // Публикуем коллекцию, если пользователь авторизован
+        return CustomerSellersCollection.find();
+    } else {
+        // Если пользователь не авторизован, возвращаем пустой массив
+        return [];
+    }
+});
+Meteor.publish('customerBuyers', function () {
+    if (this.userId) {
+        // Публикуем коллекцию, если пользователь авторизован
+        return CustomerBuyersCollection.find();
+    } else {
+        // Если пользователь не авторизован, возвращаем пустой массив
+        return [];
+    }
+});
+Meteor.publish('spareParts', function () {
+    if (this.userId) {
+        // Публикуем коллекцию, если пользователь авторизован
+        return SparePartsCollection.find();
     } else {
         // Если пользователь не авторизован, возвращаем пустой массив
         return [];

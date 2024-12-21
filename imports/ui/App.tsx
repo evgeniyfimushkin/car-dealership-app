@@ -5,7 +5,12 @@ import { CarList } from '/imports/ui/CarList';
 import { CarForm } from '/imports/ui/CarForm';
 import { useNavigate } from "react-router-dom";
 import { Meteor } from 'meteor/meteor';
-
+import {CustomerBuyerList} from "/imports/ui/CustomerBuyerList";
+import {CustomerBuyerForm} from "/imports/ui/CustomerBuyerForm";
+import {CustomerSellerForm} from "/imports/ui/CustomerSellerForm";
+import {CustomerSellerList}from "/imports/ui/CustomerSellerList";
+import {SparePartList} from "/imports/ui/SparePartList";
+import {SparePartForm} from "/imports/ui/SparePartForm";
 export const App: React.FC = () => {
     const [activeComponent, setActiveComponent] = useState<string>('employeeList');
     const navigate = useNavigate();
@@ -27,6 +32,18 @@ export const App: React.FC = () => {
                 return <CarList />;
             case 'carForm':
                 return <CarForm />;
+            case 'customerSellerList':
+                return <CustomerSellerList />;
+            case 'customerSellerForm':
+                return <CustomerSellerForm />;
+            case 'customerBuyerList':
+                return <CustomerBuyerList />;
+            case 'customerBuyerForm':
+                return <CustomerBuyerForm />;
+            case 'sparePartList':
+                return <SparePartList />;
+            case 'sparePartForm':
+                return <SparePartForm />;
             default:
                 return null;
         }
@@ -45,6 +62,12 @@ export const App: React.FC = () => {
                 <button onClick={() => setActiveComponent('employeeForm')}>Добавить сотрудника</button>
                 <button onClick={() => setActiveComponent('carList')}>Список автомобилей</button>
                 <button onClick={() => setActiveComponent('carForm')}>Добавить автомобиль</button>
+                <button onClick={() => setActiveComponent('customerSellerList')}>Список продавцов</button>
+                <button onClick={() => setActiveComponent('customerSellerForm')}>Добавить продавцов</button>
+                <button onClick={() => setActiveComponent('customerBuyerList')}>Список покупателей</button>
+                <button onClick={() => setActiveComponent('customerBuyerForm')}>Добавить покупателей</button>
+                <button onClick={() => setActiveComponent('sparePartList')}>Список запчастей</button>
+                <button onClick={() => setActiveComponent('sparePartForm')}>Добавить запчасть</button>
                 <button onClick={handleLogout}>Logout</button>
             </nav>
 

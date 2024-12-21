@@ -28,7 +28,7 @@ Meteor.methods({
     },
 
     'cars.update'(id: string, updatedCar: Car) {
-        CarsCollection.update(id, { $set: updatedCar });
+        CarsCollection.updateAsync(id, { $set: updatedCar });
     },
 
     'cars.remove'(id: string) {
