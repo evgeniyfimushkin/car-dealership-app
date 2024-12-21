@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { EmployeesCollection, Employee } from '../api/employees';
 import { useTracker } from 'meteor/react-meteor-data';
 
@@ -14,16 +14,22 @@ export const EmployeeList: React.FC = () => {
         };
     }, []);
     console.log(employees); // Выводим список сотрудников
+
     const handleEdit = (employee: Employee) => {
         setEditingEmployee(employee);
     };
 
     const handleSave = () => {
-        if (editingEmployee) {
-            // Обновляем данные сотрудника
-            EmployeesCollection.update(editingEmployee._id, {
-                $set: editingEmployee,
+        if (editingEmployee && editingEmployee._id) {
+            // Вызываем метод для обновления данных сотрудника через Meteor.call
+            Meteor.call('employees.update', editingEmployee._id, editingEmployee, (error: Error) => {
+                if (error) {
+                    console.error('Error updating employee:', error);
+                } else {
+                    console.log('Employee updated successfully');
+                }
             });
+
             setEditingEmployee(null); // Закрываем форму редактирования
         }
     };
